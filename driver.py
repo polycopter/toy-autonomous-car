@@ -37,8 +37,8 @@ class Driver:
         if start_camera == True:
             self.camera()
         
-    # turn the car based on the identified traffic sign
-    def turn_car(self, predicted_sign):
+    # drive the car based on the identified traffic sign
+    def drive_car(self, predicted_sign):
         
         if predicted_sign == "Stop":
             self.car.stop()
@@ -49,9 +49,9 @@ class Driver:
         else:
             self.car.forward()
             
-    # runs a continuously loop to capture frames from the camera.
+    # runs a continuous loop to capture frames from the camera.
     # processes each frame and makes a traffic sign prediction using a pre-trained deep neural network
-    # send commands to the car to stop or turn-right 0r turn-left etc
+    # sends the prediction to the self.drive_car() method
     def camera(self):
         vs = VideoStream(usePiCamera=False).start()
         time.sleep(2.0)
@@ -75,7 +75,7 @@ class Driver:
             predicted_sign, confidence = self.predict(roi) 
             
             # make car move based on the identified traffic sign 
-            self.turn_car(predicted_sign)
+            self.drive_car(predicted_sign)
             
             # show the annotated frame for visualization purposes
             annotated_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_RGB2BGR)
